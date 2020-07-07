@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "502390732243",
+    "firebase_url": "https://flash-chat-d6406.firebaseio.com",
+    "project_id": "flash-chat-d6406",
+    "storage_bucket": "flash-chat-d6406.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502390732243:android:87743ff70c84ec913fab26",
+        "android_client_info": {
+          "package_name": "com.abhishek.chattingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502390732243-qip8d3jovlo7khtrt5gdulal6e0gqlqg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXQ8FsT_O7ey1d51-rorC6K_XnSHzGiko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502390732243-qip8d3jovlo7khtrt5gdulal6e0gqlqg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
