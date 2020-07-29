@@ -35,12 +35,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-//  void getMessages() async {
-//    final messages = await _firestore.collection('messages').getDocuments();
-//    for (var texts in messages.documents) {
-//      print(texts.data);
-//    }
-//  }
   void messageStream() async {
     await for (var snapShot in _firestore.collection('messages').snapshots()) {
       for (var texts in snapShot.documents) {
@@ -57,80 +51,83 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        leading: null,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.clear),
-            onPressed: () {
-              Fluttertoast.showToast(
-                  msg: 'Log Out Successfully',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.CENTER,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.black54,
-                  textColor: Colors.white,
-                  fontSize: 15.0);
-              messageStream();
-              _authChat.signOut();
-              Navigator.pop(context);
-            },
-          ),
-        ],
-        title: Text('⚡️Chat'),
-        backgroundColor: Colors.lightBlueAccent,
-      ),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            MessageStream(),
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.lightBlueAccent, width: 2.0),
-                ),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: messageTextController,
-                      onChanged: (value) {
-                        messageText = value;
-                      },
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        hintText: 'Type your message here...',
-                        hintStyle: TextStyle(
-                          color: Colors.black54,
-                        ),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  FlatButton(
-                      onPressed: () {
-                        messageTextController.clear();
-                        _firestore.collection('messages').add({
-                          'text': messageText,
-                          'sender': loggedInUser.email
-                        });
-                      },
-                      child: Icon(
-                        Icons.send,
-                        size: 35.0,
-                        color: Colors.lightBlueAccent,
-                      )),
-                ],
-              ),
+    return WillPopScope(
+      onWillPop: () async=>false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: null,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () {
+                Fluttertoast.showToast(
+                    msg: 'Log Out Successfully',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.black54,
+                    textColor: Colors.white,
+                    fontSize: 15.0);
+                _authChat.signOut();
+                Navigator.pop(context);
+              },
             ),
           ],
+          title: Text('⚡️Chat'),
+          backgroundColor: Colors.lightBlueAccent,
+        ),
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              MessageStream(),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(color: Colors.lightBlueAccent, width: 2.0),
+                  ),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        controller: messageTextController,
+                        onChanged: (value) {
+                          messageText = value;
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                          hintText: 'Type your message here...',
+                          hintStyle: TextStyle(
+                            color: Colors.black54,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    FlatButton(
+                        onPressed: () {
+                          messageTextController.clear();
+                          _firestore.collection('messages').add({
+                            'text': messageText,
+                            'sender': loggedInUser.email
+                          });
+                        },
+                        child: Icon(
+                          Icons.send,
+                          size: 35.0,
+                          color: Colors.lightBlueAccent,
+                        )),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
